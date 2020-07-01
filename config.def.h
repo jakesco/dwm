@@ -7,11 +7,11 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#16A085";
+static const char col_gray1[]       = "#2e3440";
+static const char col_gray2[]       = "#4c566a";
+static const char col_gray3[]       = "#eceff4";
+static const char col_gray4[]       = "#2e3440";
+static const char col_cyan[]        = "#a3be8c";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -31,6 +31,9 @@ static const Rule rules[] = {
 	{ "firefox",    NULL,       NULL,       0,            0,           0,           -1 },
 	{ "spotify",    NULL,       NULL,       1 << 8,       0,           0,           -1 },
 	{ "Alacritty",  NULL,       "scratch",  0,            1,           1,           -1 },
+	{ "Alacritty",  NULL,       "pulsemixer", 0,          1,           1,           -1 },
+	{ "Lxappearance", NULL,     NULL,       0,            1,           1,           -1 },
+	{ "org.remmina.Remmina", NULL, "Remmina Remote Desktop Client", 0, 1, 1,        -1 },
 };
 
 /* layout(s) */
