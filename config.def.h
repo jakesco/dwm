@@ -30,7 +30,6 @@ static const Rule rules[] = {
 	{ "Gimp",       NULL,       NULL,       0,            0,           1,           -1 },
 	{ "firefox",    NULL,       NULL,       0,            0,           0,           -1 },
 	{ "spotify",    NULL,       NULL,       1 << 8,       0,           0,           -1 },
-	{ "Alacritty",  NULL,       "scratch",  0,            1,           1,           -1 },
 	{ "Alacritty",  NULL,       "pulsemixer", 0,          1,           1,           -1 },
 	{ "Lxappearance", NULL,     NULL,       0,            1,           1,           -1 },
 	{ "org.remmina.Remmina", NULL, "Remmina Remote Desktop Client", 0, 1, 1,        -1 },
