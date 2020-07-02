@@ -99,8 +99,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY,                       XK_comma,  shiftview,       {.i = -1 } },
-	{ MODKEY,                       XK_period, shiftview,       {.i = +1 } },
+	{ MODKEY,                       XK_comma,  shiftview,      {.i = -1 } },
+	{ MODKEY,                       XK_period, shiftview,      {.i = +1 } },
 };
 
 /* button definitions */
