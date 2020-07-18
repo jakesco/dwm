@@ -16,6 +16,12 @@ static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+    /* colorbar fg and bg unused but cannot be empty */
+   	[SchemeStatus]  = { col_gray3, col_gray1,  "#282A36" }, // Statusbar right
+	[SchemeTagsSel]  = { col_gray4, col_cyan,  "#FF79C6" }, // Tagbar left selected
+    [SchemeTagsNorm]  = { col_gray3, col_gray1,  "#282A36" }, // Tagbar left unselected
+    [SchemeInfoSel]  = { col_gray4, col_cyan,  "#282A36" }, // infobar middle selected
+    [SchemeInfoNorm]  = { col_gray3, col_gray1, "#282A36" }, // infobar middle unselected
 };
 
 /* tagging */
