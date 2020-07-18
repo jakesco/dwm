@@ -7,21 +7,20 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#282A36";
-static const char col_gray2[]       = "#44475A";
-static const char col_gray3[]       = "#F8F8F2";
-static const char col_gray4[]       = "#282A36";
-static const char col_cyan[]        = "#FF79C6";
+static const char col_bg[]       = "#282A36";
+static const char col_gray[]       = "#44475A";
+static const char col_text[]       = "#F8F8F2";
+static const char col_hl[]        = "#FF79C6";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-    /* colorbar fg and bg unused but cannot be empty */
-   	[SchemeStatus]  = { col_gray3, col_gray1,  "#282A36" }, // Statusbar right
-	[SchemeTagsSel]  = { col_gray4, col_cyan,  "#FF79C6" }, // Tagbar left selected
-    [SchemeTagsNorm]  = { col_gray3, col_gray1,  "#282A36" }, // Tagbar left unselected
-    [SchemeInfoSel]  = { col_gray4, col_cyan,  "#282A36" }, // infobar middle selected
-    [SchemeInfoNorm]  = { col_gray3, col_gray1, "#282A36" }, // infobar middle unselected
+	[SchemeNorm] = { col_text, col_bg, col_gray },
+	[SchemeSel]  = { col_gray, col_hl,  col_hl  },
+    /* colorbar border unused but cannot be empty */
+   	[SchemeStatus]  = { col_text, col_bg,  "#000000" }, // Statusbar right
+	[SchemeTagsSel]  = { col_bg, col_hl,  "#000000" }, // Tagbar left selected
+    [SchemeTagsNorm]  = { col_text, col_bg,  "#000000" }, // Tagbar left unselected
+    [SchemeInfoSel]  = { col_text, col_bg,  "#000000" }, // infobar middle selected
+    [SchemeInfoNorm]  = { col_text, col_bg, "#000000" }, // infobar middle unselected
 };
 
 /* tagging */
