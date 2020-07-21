@@ -6,7 +6,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
+static const char *fonts[]          = { "monospace:size=10", "Font Awesome 5 Free:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_bg[]          = "#282A36";
 static const char col_gray[]        = "#44475A";
@@ -59,8 +59,8 @@ static const Layout layouts[] = {
 
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 #define STACKKEYS(MOD,ACTION) \
@@ -107,6 +107,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_b,         togglebar,      {0} },
 	{ MODKEY,                       XK_comma,     incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_period,    incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,         shiftview,      {.i = -1 } },
+	{ MODKEY,                       XK_l,         shiftview,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_h,         setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,             XK_l,         setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_space,     zoom,           {0} }, // make master
@@ -120,8 +122,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,         togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,         view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,         tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_g,         shiftview,      {.i = -1 } },
-	{ MODKEY,                       XK_semicolon, shiftview,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,     focusmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period,    focusmon,       {.i = +1 } },
 	{ MODKEY|ControlMask|ShiftMask, XK_comma,     tagmon,         {.i = -1 } },
