@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h> // for media keys
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -7,20 +8,20 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_bg[]       = "#282A36";
-static const char col_gray[]       = "#44475A";
-static const char col_text[]       = "#F8F8F2";
-static const char col_hl[]        = "#FF79C6";
+static const char col_bg[]          = "#282A36";
+static const char col_gray[]        = "#44475A";
+static const char col_text[]        = "#F8F8F2";
+static const char col_hl[]          = "#FF79C6";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_text, col_bg, col_gray },
-	[SchemeSel]  = { col_gray, col_hl,  col_hl  },
+	[SchemeNorm]     = { col_text, col_bg, col_gray },
+	[SchemeSel]      = { col_gray, col_hl,  col_hl  },
     /* colorbar border unused but cannot be empty */
-   	[SchemeStatus]  = { col_text, col_bg,  "#000000" }, // Statusbar right
-	[SchemeTagsSel]  = { col_bg, col_hl,  "#000000" }, // Tagbar left selected
-    [SchemeTagsNorm]  = { col_text, col_bg,  "#000000" }, // Tagbar left unselected
-    [SchemeInfoSel]  = { col_text, col_bg,  "#000000" }, // infobar middle selected
-    [SchemeInfoNorm]  = { col_text, col_bg, "#000000" }, // infobar middle unselected
+   	[SchemeStatus]   = { col_text, col_bg, "#000000" }, // Statusbar right
+	[SchemeTagsSel]  = { col_bg, col_hl, "#000000" }, // Tagbar left selected
+    [SchemeTagsNorm] = { col_text, col_bg, "#000000" }, // Tagbar left unselected
+    [SchemeInfoSel]  = { col_text, col_bg, "#000000" }, // infobar middle selected
+    [SchemeInfoNorm] = { col_text, col_bg, "#000000" }, // infobar middle unselected
 };
 
 /* tagging */
@@ -31,13 +32,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance    title       tags mask     iscentered   isfloating   monitor */
-	{ "Gimp",       NULL,       NULL,       0,            0,           1,           -1 },
-	{ "firefox",    NULL,       NULL,       0,            0,           0,           -1 },
-	{ "spotify",    NULL,       NULL,       1 << 8,       0,           0,           -1 },
-	{ "Alacritty",  NULL,       "pulsemixer", 0,          1,           1,           -1 },
-	{ "Lxappearance", NULL,     NULL,       0,            1,           1,           -1 },
-	{ "org.remmina.Remmina", NULL, "Remmina Remote Desktop Client", 0, 1, 1,        -1 },
+	/* class          instance    title         tags mask     iscentered   isfloating   monitor */
+	{ "Gimp",         NULL,       NULL,         0,            0,           1,           -1 },
+	{ "firefox",      NULL,       NULL,         0,            0,           0,           -1 },
+	{ "spotify",      NULL,       NULL,         1 << 8,       0,           0,           -1 },
+	{ "Alacritty",    NULL,       "pulsemixer", 0,            1,           1,           -1 },
+	{ "Lxappearance", NULL,       NULL,         0,            1,           1,           -1 },
+	{ "org.remmina.Remmina", NULL, "Remmina Remote Desktop Client", 0, 1,  1,           -1 },
 };
 
 /* layout(s) */
@@ -55,11 +56,13 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
+
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD, XK_j,     ACTION##stack, {.i = INC(+1) } }, \
 	{ MOD, XK_k,     ACTION##stack, {.i = INC(-1) } },
@@ -76,15 +79,36 @@ static const char *scratchpadcmd[] = { "alacritty", "-t", scratchpadname, "-d", 
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+    // Hotkeys
 	{ MODKEY,                       XK_p,         spawn,          {.v = dmenucmd} },
 	{ MODKEY,                       XK_Return,    spawn,          {.v = termcmd} },
+	{ MODKEY,                       XK_w,         spawn,          SHCMD("$BROWSER") },
+	{ MODKEY,                       XK_x,         spawn,          SHCMD("lockscreen") },
+	{ MODKEY|ShiftMask,             XK_x,         spawn,          SHCMD("sessionopt") },
+	{ MODKEY,                       XK_grave,     spawn,          SHCMD("list-icons") },
+	{ MODKEY|ShiftMask,             XK_grave,     spawn,          SHCMD("list-colors") },
+    // Media Keys
+	{ 0,         XF86XK_AudioMute,                spawn,          SHCMD("pulsemixer --toggle-mute; kill -36 $(pidof goblocks)") },
+	{ 0,         XF86XK_AudioRaiseVolume,         spawn,          SHCMD("pulsemixer --change-volume +10; kill -36 $(pidof goblocks)") },
+	{ ShiftMask, XF86XK_AudioRaiseVolume,         spawn,          SHCMD("pulsemixer --change-volume +1; kill -36 $(pidof goblocks)") },
+	{ 0,         XF86XK_AudioLowerVolume,         spawn,          SHCMD("pulsemixer --change-volume -10; kill -36 $(pidof goblocks)") },
+	{ ShiftMask, XF86XK_AudioLowerVolume,         spawn,          SHCMD("pulsemixer --change-volume -1; kill -36 $(pidof goblocks)") },
+	{ 0,         XF86XK_AudioPlay,                spawn,          SHCMD("playerctl --player=spotify play-pause") },
+	{ 0,         XF86XK_AudioPrev,                spawn,          SHCMD("playerctl --player=spotify previous") },
+	{ 0,         XF86XK_AudioNext,                spawn,          SHCMD("playerctl --player=spotify next") },
+    //{ 0,       XF86XK_Calculator,               spawn,          SHCMD() },
+    //{ 0,       XF86XK_Mail,                     spawn,          SHCMD() },
+    //{ 0,       XF86XK_HomePage,                 spawn,          SHCMD() },
+    //{ 0,       XF86XK_Tools,                    spawn,          SHCMD() },
+    //{ 0,       XF86XK_Search,                   spawn,          SHCMD() },
+    // DWM commands
 	{ MODKEY,                       XK_q,         killclient,     {0} },
 	{ MODKEY,                       XK_s,         togglescratch,  {.v = scratchpadcmd} },
 	{ MODKEY,                       XK_b,         togglebar,      {0} },
-	{ MODKEY,                       XK_i,         incnmaster,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_i,         incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,         setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,         setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_comma,     incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_period,    incnmaster,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_h,         setmfact,       {.f = -0.05} },
+	{ MODKEY|ShiftMask,             XK_l,         setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_space,     zoom,           {0} }, // make master
 	{ MODKEY,                       XK_Tab,       view,           {0} }, // last tag
 	{ MODKEY,                       XK_t,         setlayout,      {.v = &layouts[0]} }, // tile
@@ -98,10 +122,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_0,         tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_g,         shiftview,      {.i = -1 } },
 	{ MODKEY,                       XK_semicolon, shiftview,      {.i = +1 } },
-	{ MODKEY,                       XK_comma,     focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period,    focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,     tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period,    tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,     focusmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,    focusmon,       {.i = +1 } },
+	{ MODKEY|ControlMask|ShiftMask, XK_comma,     tagmon,         {.i = -1 } },
+	{ MODKEY|ControlMask|ShiftMask, XK_period,    tagmon,         {.i = +1 } },
 	STACKKEYS(                      MODKEY,                       focus)
 	STACKKEYS(                      MODKEY|ShiftMask,             push)
 	TAGKEYS(                        XK_1,                         0)
